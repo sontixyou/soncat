@@ -25,7 +25,7 @@ pub fn get_args() -> MyResult<Config> {
                 .value_name("FILE_NAMES")
                 .help("Input files name")
                 .num_args(1..)
-                .required(true),
+                .default_value("-"),
         )
         .arg(
             Arg::new("number_lines")
