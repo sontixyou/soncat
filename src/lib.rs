@@ -32,6 +32,7 @@ pub fn get_args() -> MyResult<Config> {
                 .short('n')
                 .long("number")
                 .help("Number all output lines")
+                .conflicts_with("number_nonblank_lines")
                 .action(ArgAction::SetTrue),
         )
         .arg(
