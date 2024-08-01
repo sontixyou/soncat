@@ -16,11 +16,11 @@ pub fn run(config: Config) -> MyResult<()> {
                         Err(err) => eprintln!("Failed to read line: {}", err),
                         Ok(line) => {
                             if config.number_lines {
-                                println!("{} {}", line_number, line);
+                                print_line_with_number(line_number, &line);
                                 line_number += 1;
                             } else if config.number_nonblank_lines {
                                 if !line.is_empty() {
-                                    println!("{} {}", line_number, line);
+                                    print_line_with_number(line_number, &line);
                                     line_number += 1;
                                 } else {
                                     println!();
@@ -42,6 +42,10 @@ fn open(filename: &str) -> MyResult<Box<dyn BufRead>> {
         "-" => Ok(Box::new(BufReader::new(io::stdin()))),
         _ => Ok(Box::new(BufReader::new(File::open(filename)?))),
     }
+}
+
+fn print_line_with_number(line_number: usize, line: &str) {
+    println!("{line_number:6}\t{line}");
 }
 
 #[derive(Debug)]
