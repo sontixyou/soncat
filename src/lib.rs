@@ -9,7 +9,16 @@ pub fn run(config: Config) -> MyResult<()> {
     for filename in config.files {
         match open(&filename) {
             Err(err) => eprintln!("Failed to open {}: {}", filename, err),
-            Ok(_) => println!("Opened {}", filename),
+            Ok(buf_read) => {
+                for line in buf_read.lines() {
+                    match line {
+                        Err(err) => eprintln!("Failed to read line: {}", err),
+                        Ok(line) => {
+                            println!("{}", line);
+                        }
+                    }
+                }
+            }
         }
     }
     Ok(())
