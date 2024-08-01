@@ -10,11 +10,24 @@ pub fn run(config: Config) -> MyResult<()> {
         match open(&filename) {
             Err(err) => eprintln!("Failed to open {}: {}", filename, err),
             Ok(buf_read) => {
+                let mut line_number = 1;
                 for line in buf_read.lines() {
                     match line {
                         Err(err) => eprintln!("Failed to read line: {}", err),
                         Ok(line) => {
-                            println!("{}", line);
+                            if config.number_lines {
+                                println!("{} {}", line_number, line);
+                                line_number += 1;
+                            } else if config.number_nonblank_lines {
+                                if !line.is_empty() {
+                                    println!("{} {}", line_number, line);
+                                    line_number += 1;
+                                } else {
+                                    println!();
+                                }
+                            } else {
+                                println!("{}", line);
+                            }
                         }
                     }
                 }
